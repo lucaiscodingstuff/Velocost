@@ -3,264 +3,703 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Datenschutzerklärung – Velocost</title>
+    <meta name="theme-color" content="#050b14" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Datenschutzerklärung der App Velocost." />
+    <title>Datenschutz – Velocost</title>
+    <style>
+      :root {
+        --bg: #040911;
+        --surface: rgba(13, 25, 42, 0.84);
+        --surface-strong: rgba(16, 31, 51, 0.96);
+        --border: rgba(84, 151, 255, 0.19);
+        --border-soft: rgba(255, 255, 255, 0.08);
+        --text: #f6f8fc;
+        --muted: #a8b4c6;
+        --muted-2: #7e8ca2;
+        --blue: #4797ff;
+        --blue-strong: #1478ff;
+        --radius: 24px;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+        --max: 1040px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        line-height: 1.65;
+        background:
+          radial-gradient(
+            circle at 14% 4%,
+            rgba(20, 120, 255, 0.22),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 84% 48%,
+            rgba(20, 120, 255, 0.11),
+            transparent 30%
+          ),
+          linear-gradient(145deg, #03070d, #07111f 52%, #040810);
+      }
+      a {
+        color: inherit;
+      }
+      .container {
+        width: min(calc(100% - 40px), var(--max));
+        margin: 0 auto;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+        background: rgba(4, 9, 17, 0.78);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+      }
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-size: 1.22rem;
+        font-weight: 780;
+        letter-spacing: -0.025em;
+      }
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--blue);
+        border-radius: 12px;
+        background: rgba(63, 146, 255, 0.08);
+      }
+      .brand-icon svg {
+        width: 25px;
+        height: 25px;
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .nav-links {
+        display: flex;
+        gap: 22px;
+        align-items: center;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 650;
+        font-size: 0.94rem;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+      .hero {
+        padding: 82px 0 48px;
+      }
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 42px;
+        align-items: center;
+        padding: 58px;
+        border: 1px solid var(--border);
+        border-radius: 34px;
+        background:
+          radial-gradient(
+            circle at 88% 42%,
+            rgba(39, 138, 255, 0.2),
+            transparent 34%
+          ),
+          linear-gradient(145deg, rgba(16, 31, 51, 0.96), rgba(6, 14, 25, 0.98));
+        box-shadow: var(--shadow);
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 17px;
+        color: var(--blue);
+        font-size: 0.8rem;
+        font-weight: 820;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .eyebrow:before {
+        content: "";
+        width: 30px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--blue);
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 5.8rem);
+        line-height: 0.96;
+        letter-spacing: -0.065em;
+      }
+      .accent {
+        color: var(--blue);
+      }
+      .hero p {
+        max-width: 640px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+      .shield {
+        width: 250px;
+        height: 250px;
+        display: grid;
+        place-items: center;
+        margin: auto;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(71, 151, 255, 0.2),
+          rgba(71, 151, 255, 0.04) 58%,
+          transparent 60%
+        );
+      }
+      .shield svg {
+        width: 130px;
+        height: 130px;
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 1.3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 20px rgba(71, 151, 255, 0.35));
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin: 22px 0 72px;
+      }
+      .summary-card {
+        padding: 20px;
+        border: 1px solid var(--border-soft);
+        border-radius: 17px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .summary-card strong {
+        display: block;
+        font-size: 1rem;
+      }
+      .summary-card span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 28px;
+        padding-bottom: 88px;
+      }
+      .toc {
+        position: sticky;
+        top: 100px;
+        align-self: start;
+        padding: 22px;
+        border: 1px solid var(--border-soft);
+        border-radius: 20px;
+        background: rgba(9, 18, 31, 0.76);
+        backdrop-filter: blur(14px);
+      }
+      .toc strong {
+        display: block;
+        margin-bottom: 10px;
+      }
+      .toc a {
+        display: block;
+        padding: 8px 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-decoration: none;
+      }
+      .toc a:hover {
+        color: var(--blue);
+      }
+      .content {
+        display: grid;
+        gap: 18px;
+      }
+      .card {
+        scroll-margin-top: 100px;
+        padding: 30px;
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 0 18px 55px rgba(0, 0, 0, 0.18);
+      }
+      .card h2 {
+        margin: 0 0 13px;
+        font-size: 1.55rem;
+        letter-spacing: -0.03em;
+      }
+      .card h3 {
+        margin: 24px 0 8px;
+        font-size: 1.05rem;
+      }
+      .card p,
+      .card li {
+        color: var(--muted);
+      }
+      .card p {
+        margin: 10px 0;
+      }
+      .card ul {
+        padding-left: 1.2rem;
+      }
+      .number {
+        display: inline-grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 10px;
+        border-radius: 11px;
+        background: rgba(71, 151, 255, 0.12);
+        color: var(--blue);
+        font-size: 0.92rem;
+      }
+      .process {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 22px;
+      }
+      .process-step {
+        position: relative;
+        padding: 18px 15px;
+        text-align: center;
+        border: 1px solid var(--border-soft);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .process-step strong {
+        display: block;
+        color: var(--text);
+        font-size: 0.94rem;
+      }
+      .process-step span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted-2);
+        font-size: 0.82rem;
+      }
+      .notice {
+        padding: 17px 18px;
+        border: 1px solid rgba(71, 151, 255, 0.23);
+        border-radius: 15px;
+        background: rgba(71, 151, 255, 0.07);
+        color: #dbe9fb;
+      }
+      .contact-box {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: center;
+        margin-top: 18px;
+        padding: 18px;
+        border: 1px solid var(--border-soft);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .contact-box a {
+        color: var(--blue);
+        font-weight: 750;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+      }
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 34px 0 44px;
+        color: var(--muted-2);
+        font-size: 0.91rem;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .footer nav {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .footer a:hover {
+        color: var(--blue);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+      }
+      @media (max-width: 850px) {
+        .hero-card,
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .shield {
+          width: 190px;
+          height: 190px;
+        }
+        .summary-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .toc {
+          position: static;
+        }
+        .process {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 620px) {
+        .container {
+          width: min(calc(100% - 24px), var(--max));
+        }
+        .nav-links a:first-child {
+          display: none;
+        }
+        .hero {
+          padding-top: 48px;
+        }
+        .hero-card {
+          padding: 34px 24px;
+          border-radius: 25px;
+        }
+        .summary-grid,
+        .process {
+          grid-template-columns: 1fr;
+        }
+        .card {
+          padding: 23px;
+        }
+        .contact-box {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Datenschutzerklärung</h1>
-
-    <p>
-      <strong>Stand:</strong> 27. Juli 2026<br />
-      <strong>App-Version:</strong> 1.0.0
-    </p>
-
-    <hr />
-
-    <h2>1. Verantwortlicher</h2>
-
-    <p>
-      Verantwortlich für die Datenverarbeitung im Sinne der Datenschutz-Grundverordnung (DSGVO):
-    </p>
-
-    <p>
-      <strong>Luca Runkel</strong><br />
-      Bahnhofstraße 12<br />
-      79353 Bahlingen<br />
-      Deutschland
-    </p>
-
-    <h2>2. Kontakt</h2>
-
-    <p>
-      E-Mail:
-      <a href="mailto:velocost.info@gmail.com">velocost.info@gmail.com</a>
-    </p>
-
-    <p>
-      Datenschutz:
-      <a href="mailto:velocost.info@gmail.com">velocost.info@gmail.com</a>
-    </p>
-
-    <h2>3. Zweck der Datenverarbeitung</h2>
-
-    <p>
-      Velocost ist eine App zur Verwaltung und Analyse von Fahrzeugkosten. Die Verarbeitung deiner
-      personenbezogenen Daten erfolgt ausschließlich, um die Funktionen der App bereitzustellen, zu
-      verbessern und dir die Nutzung deines Benutzerkontos zu ermöglichen.
-    </p>
-
-    <p>
-      Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung)
-      sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und
-      funktionsfähigen Bereitstellung der App).
-    </p>
-
-    <h2>4. Welche Daten verarbeitet werden</h2>
-
-    <h3>4.1 Fahrzeugdaten</h3>
-
-    <p>Je nach Nutzung können unter anderem folgende Fahrzeugdaten gespeichert werden:</p>
-
-    <ul>
-      <li>Hersteller und Modell</li>
-      <li>Baujahr</li>
-      <li>Kennzeichen</li>
-      <li>Kilometerstand</li>
-      <li>Kaufdatum</li>
-      <li>Kaufpreis</li>
-      <li>Zustand</li>
-      <li>weitere freiwillig eingegebene Fahrzeuginformationen</li>
-    </ul>
-
-    <h3>4.2 Kosteneinträge</h3>
-
-    <p>Die App kann folgende fahrzeugbezogene Kosten speichern:</p>
-
-    <ul>
-      <li>Tank- und Ladevorgänge</li>
-      <li>Wartungen</li>
-      <li>Reparaturen</li>
-      <li>Versicherungen</li>
-      <li>Kfz-Steuer</li>
-      <li>Finanzierungen und Leasing</li>
-      <li>Reifen</li>
-      <li>Inspektionen</li>
-      <li>sonstige Ausgaben mit Betrag, Datum und Beschreibung</li>
-    </ul>
-
-    <h3>4.3 Dokumente</h3>
-
-    <p>
-      Von dir hochgeladene Dokumente (z. B. Rechnungen oder Quittungen) werden verschlüsselt
-      gespeichert. Der Zugriff erfolgt ausschließlich durch den jeweiligen Kontoinhaber. Die Daten
-      werden durch Row Level Security (RLS) geschützt.
-    </p>
-
-    <h3>4.4 Benutzerkonto</h3>
-
-    <p>
-      Zur Nutzung der App werden deine E-Mail-Adresse und – sofern vom jeweiligen Anbieter
-      bereitgestellt – dein Name gespeichert. Passwörter werden nicht von Velocost verarbeitet oder
-      gespeichert.
-    </p>
-
-    <h3>4.5 Anmeldung mit Apple</h3>
-
-    <p>
-      Bei der Anmeldung über „Mit Apple anmelden“ übermittelt Apple deine E-Mail-Adresse
-      beziehungsweise eine private Relay-Adresse an Velocost. Die Verarbeitung erfolgt gemäß den
-      Datenschutzbestimmungen von Apple.
-    </p>
-
-    <p>
-      Weitere Informationen:
-      <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">
-        https://www.apple.com/legal/privacy/
-      </a>
-    </p>
-
-    <h3>4.6 Anmeldung mit Google</h3>
-
-    <p>
-      Bei der Anmeldung über Google werden deine Google-E-Mail-Adresse und gegebenenfalls
-      Profilinformationen an Velocost übermittelt. Die Verarbeitung erfolgt gemäß den
-      Datenschutzbestimmungen von Google.
-    </p>
-
-    <p>
-      Weitere Informationen:
-      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">
-        https://policies.google.com/privacy
-      </a>
-    </p>
-
-    <h3>4.7 Cloudspeicherung</h3>
-
-    <p>
-      Die Daten werden verschlüsselt übertragen (TLS/SSL) und in einer sicheren Cloud-Datenbank
-      innerhalb der Europäischen Union gespeichert.
-    </p>
-
-    <h3>4.8 Dokumentenscanner</h3>
-
-    <p>
-      Wenn du ein Dokument scannst oder hochlädst, wird dieses verarbeitet, um mithilfe von OCR und
-      KI relevante Informationen wie Betrag, Datum oder Händler automatisch zu erkennen.
-    </p>
-
-    <p>
-      Alle erkannten Informationen können vor dem Speichern jederzeit überprüft und manuell geändert
-      werden. Es erfolgt keine automatische Speicherung ohne deine ausdrückliche Bestätigung.
-    </p>
-
-    <h3>4.9 KI-Analyse</h3>
-
-    <p>
-      Für die automatische Dokumentenerkennung wird ein KI-Dienst eingesetzt. Das hochgeladene
-      Dokument wird ausschließlich zur Extraktion der enthaltenen Informationen verarbeitet. Die KI
-      trifft keine automatisierten Entscheidungen mit rechtlicher Wirkung. Alle Ergebnisse können
-      vor dem Speichern überprüft und geändert werden.
-    </p>
-
-    <h3>4.10 Technische Plattform und Hosting</h3>
-
-    <p>
-      Velocost wird mithilfe der Entwicklungsplattform Base44 bereitgestellt. Für den Betrieb der
-      App werden technische Cloud-Dienste genutzt, über die unter anderem die Authentifizierung,
-      Datenbank, Dateispeicherung und Serverfunktionen bereitgestellt werden.
-    </p>
-
-    <p>
-      Soweit hierbei personenbezogene Daten verarbeitet werden, erfolgt dies ausschließlich zur
-      Bereitstellung der Funktionen der App, zur sicheren Speicherung deiner Daten sowie zur
-      Gewährleistung eines zuverlässigen Betriebs.
-    </p>
-
-    <p>
-      Mit den eingesetzten technischen Dienstleistern werden – soweit gesetzlich erforderlich –
-      geeignete Vereinbarungen zum Datenschutz abgeschlossen. Die Verarbeitung erfolgt nach den
-      Vorgaben der Datenschutz-Grundverordnung (DSGVO).
-    </p>
-
-    <h2>5. Berechtigungen der App</h2>
-
-    <p>Je nach Nutzung der App können folgende Geräteberechtigungen erforderlich sein:</p>
-
-    <ul>
-      <li><strong>Kamera:</strong> zum Scannen von Dokumenten.</li>
-      <li>
-        <strong>Fotos:</strong> zum Importieren bereits vorhandener Dokumente oder Fahrzeugbilder.
-      </li>
-    </ul>
-
-    <p>
-      Alle Berechtigungen werden ausschließlich nach deiner ausdrücklichen Zustimmung verwendet und
-      können jederzeit in den Einstellungen deines Geräts widerrufen werden.
-    </p>
-
-    <h2>5.1 Speicherdauer</h2>
-
-    <p>
-      Deine Daten werden gespeichert, solange dein Benutzerkonto besteht. Nach der Löschung deines
-      Kontos werden deine personenbezogenen Daten dauerhaft gelöscht, soweit keine gesetzlichen
-      Aufbewahrungspflichten entgegenstehen.
-    </p>
-
-    <h2>6. Rechte der betroffenen Personen</h2>
-
-    <p>Du hast insbesondere folgende Rechte:</p>
-
-    <ul>
-      <li>Auskunft (Art. 15 DSGVO)</li>
-      <li>Berichtigung (Art. 16 DSGVO)</li>
-      <li>Löschung (Art. 17 DSGVO)</li>
-      <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-      <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
-      <li>Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
-      <li>Beschwerde bei einer zuständigen Datenschutzaufsichtsbehörde</li>
-    </ul>
-
-    <h2>7. Konto löschen</h2>
-
-    <p>
-      Du kannst dein Benutzerkonto einschließlich aller gespeicherten Daten jederzeit innerhalb der
-      App löschen.
-    </p>
-
-    <p>
-      <strong>Pfad:</strong><br />
-      Profil → Datenschutz → Konto löschen
-    </p>
-
-    <p>Die Löschung ist dauerhaft und kann nicht rückgängig gemacht werden.</p>
-
-    <h2>8. Datenexport</h2>
-
-    <p>Du kannst deine gespeicherten Daten jederzeit als JSON-Datei exportieren.</p>
-
-    <p>Der Export enthält unter anderem Fahrzeuge, Kosten, Dokumente und Einstellungen.</p>
-
-    <p>
-      <strong>Pfad:</strong><br />
-      Profil → Datenschutz → Daten exportieren
-    </p>
-
-    <h2>9. Datenschutzkontakt</h2>
-
-    <p>Bei Fragen zum Datenschutz erreichst du uns unter:</p>
-
-    <p>
-      <a href="mailto:velocost.info@gmail.com"> velocost.info@gmail.com </a>
-    </p>
-
-    <h2>10. Änderungen dieser Datenschutzerklärung</h2>
-
-    <p>
-      Diese Datenschutzerklärung kann angepasst werden, wenn sich gesetzliche Vorgaben oder
-      Funktionen der App ändern. Es gilt jeweils die aktuelle veröffentlichte Version.
-    </p>
-
-    <hr />
-
-    <p>© 2026 Velocost – Alle Rechte vorbehalten.</p>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="./"
+          ><span class="brand-icon"
+            ><svg viewBox="0 0 24 24">
+              <path d="M5 16.5h14" />
+              <path
+                d="M6.4 16.5 5.2 12a2 2 0 0 1 1.9-2.5h9.8a2 2 0 0 1 1.9 2.5l-1.2 4.5"
+              />
+              <path d="M8 9.5 9.3 7.8h5.4L16 9.5" />
+              <circle cx="8" cy="16.5" r="1.7" />
+              <circle cx="16" cy="16.5" r="1.7" /></svg></span
+          ><span>Velocost</span></a
+        >
+        <nav class="nav-links">
+          <a href="./">Startseite</a><a href="./support.html">Support</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container hero-card reveal">
+          <div>
+            <p class="eyebrow">Datenschutz & Kontrolle</p>
+            <h1>
+              Deine Daten.<br /><span class="accent">Transparent</span> erklärt.
+            </h1>
+            <p>
+              Hier erfährst du verständlich, welche Daten Velocost verarbeitet,
+              wofür sie benötigt werden und welche Rechte du hast.
+            </p>
+          </div>
+          <div class="shield">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 3 20 6v5c0 5.2-3.2 8.7-8 10-4.8-1.3-8-4.8-8-10V6l8-3Z"
+              />
+              <path d="m8.5 12 2.2 2.2 4.8-5" />
+            </svg>
+          </div>
+        </div>
+      </section>
+      <div class="container summary-grid reveal">
+        <div class="summary-card">
+          <strong>Klare Zweckbindung</strong
+          ><span
+            >Daten werden nur für die bereitgestellten Funktionen
+            verwendet.</span
+          >
+        </div>
+        <div class="summary-card">
+          <strong>Private Dokumente</strong
+          ><span>Hochgeladene Unterlagen sind deinem Konto zugeordnet.</span>
+        </div>
+        <div class="summary-card">
+          <strong>Deine Kontrolle</strong
+          ><span>Export, Korrektur und Löschung sind vorgesehen.</span>
+        </div>
+        <div class="summary-card">
+          <strong>Keine Werbung</strong
+          ><span
+            >Velocost verkauft keine personenbezogenen Daten zu
+            Werbezwecken.</span
+          >
+        </div>
+      </div>
+      <div class="container layout">
+        <aside class="toc">
+          <strong>Inhalt</strong
+          ><a href="#verantwortung">Verantwortliche Stelle</a
+          ><a href="#daten">Verarbeitete Daten</a
+          ><a href="#scanner">Dokumentenscanner</a
+          ><a href="#konto">Konto & Anmeldung</a
+          ><a href="#plattform">Plattform & Hosting</a
+          ><a href="#speicherung">Speicherung & Löschung</a
+          ><a href="#rechte">Deine Rechte</a><a href="#kontakt">Kontakt</a>
+        </aside>
+        <div class="content">
+          <section class="card reveal" id="verantwortung">
+            <h2><span class="number">1</span>Verantwortliche Stelle</h2>
+            <p>
+              Verantwortlich für die Datenverarbeitung innerhalb von Velocost
+              ist:
+            </p>
+            <div class="notice">
+              <br />Luca Runkel<br />Bahnhofstraße 12, 79353 Bahlingen<br />Deutschland<br />E-Mail:
+              velocost.info@gmail.com
+            </div>
+          </section>
+          <section class="card reveal" id="daten">
+            <h2>
+              <span class="number">2</span>Welche Daten verarbeitet werden
+            </h2>
+            <p>
+              Je nach Nutzung können insbesondere folgende Daten verarbeitet
+              werden:
+            </p>
+            <ul>
+              <li>
+                Kontodaten wie E-Mail-Adresse, Benutzerkennung und
+                Anmeldeinformationen
+              </li>
+              <li>
+                Fahrzeugdaten wie Hersteller, Modell, Baujahr, Kilometerstand
+                und Kennzeichen
+              </li>
+              <li>
+                Kostendaten zu Kraftstoff, Strom, Versicherung, Steuer, Wartung,
+                Reparaturen, Reifen, Finanzierung oder Leasing
+              </li>
+              <li>
+                Termine und Fristen, beispielsweise HU, Inspektion oder
+                Versicherungsfälligkeit
+              </li>
+              <li>Hochgeladene Bilder und Dokumente</li>
+              <li>
+                Technische Daten, die für Betrieb, Sicherheit und Fehleranalyse
+                erforderlich sind
+              </li>
+            </ul>
+            <p>
+              Die Verarbeitung erfolgt zur Bereitstellung der App-Funktionen,
+              zur Synchronisierung deiner Daten und zur Verbesserung der
+              Stabilität.
+            </p>
+          </section>
+          <section class="card reveal" id="scanner">
+            <h2><span class="number">3</span>Dokumentenscanner und Analyse</h2>
+            <p>
+              Velocost kann Belege, Rechnungen und Vertragsunterlagen
+              analysieren, um relevante Angaben zu erkennen und passende
+              Einträge vorzuschlagen. Die Ergebnisse werden vor dem Speichern
+              zur Kontrolle angezeigt.
+            </p>
+            <div class="process">
+              <div class="process-step">
+                <strong>Dokument wählen</strong><span>Foto oder Datei</span>
+              </div>
+              <div class="process-step">
+                <strong>Inhalte erkennen</strong
+                ><span>Texterkennung und Analyse</span>
+              </div>
+              <div class="process-step">
+                <strong>Angaben prüfen</strong><span>Korrektur durch dich</span>
+              </div>
+              <div class="process-step">
+                <strong>Eintrag speichern</strong
+                ><span>Nur nach Bestätigung</span>
+              </div>
+            </div>
+            <p>
+              Bitte prüfe erkannte Angaben immer sorgfältig. Automatische
+              Analysen können unvollständig oder fehlerhaft sein.
+            </p>
+          </section>
+          <section class="card reveal" id="konto">
+            <h2><span class="number">4</span>Benutzerkonto und Anmeldung</h2>
+            <p>
+              Velocost kann eine Anmeldung über Apple, Google oder andere
+              technisch eingebundene Anmeldedienste ermöglichen. Dabei werden
+              nur die Daten übernommen, die zur Anmeldung und Zuordnung deines
+              Kontos erforderlich sind.
+            </p>
+            <p>
+              Für die Verarbeitung durch den jeweiligen Anmeldedienst gelten
+              zusätzlich dessen Datenschutzbestimmungen.
+            </p>
+          </section>
+          <section class="card reveal" id="plattform">
+            <h2>
+              <span class="number">5</span>Technische Plattform und Hosting
+            </h2>
+            <p>
+              Velocost wurde mit Diensten der Plattform Base44 entwickelt und
+              betrieben. Base44 kann im Rahmen der technischen Bereitstellung
+              als Auftragsverarbeiter tätig werden. Dazu gehören insbesondere
+              Hosting, Datenbankfunktionen, Authentifizierung, Dateispeicherung
+              und serverseitige Funktionen.
+            </p>
+            <p>
+              Zusätzlich können technisch erforderliche Dienstleister für
+              Cloudspeicherung, Fehleranalyse oder die Verarbeitung von
+              Dokumenten eingesetzt werden. Eine Weitergabe erfolgt nur, soweit
+              sie zur Bereitstellung der jeweiligen Funktion erforderlich ist.
+            </p>
+          </section>
+          <section class="card reveal" id="speicherung">
+            <h2><span class="number">6</span>Speicherdauer und Löschung</h2>
+            <p>
+              Daten werden grundsätzlich so lange gespeichert, wie dein Konto
+              besteht oder sie für die Nutzung der App erforderlich sind.
+              Gesetzliche Aufbewahrungspflichten können im Einzelfall eine
+              längere Speicherung erfordern.
+            </p>
+            <p>
+              Du kannst die Löschung deines Kontos innerhalb der App anstoßen.
+              Dabei werden die deinem Konto zugeordneten Daten nach Maßgabe der
+              technischen und gesetzlichen Anforderungen gelöscht.
+              Sicherungskopien können für einen begrenzten Zeitraum
+              fortbestehen.
+            </p>
+          </section>
+          <section class="card reveal" id="rechte">
+            <h2><span class="number">7</span>Deine Datenschutzrechte</h2>
+            <p>
+              Du hast im Rahmen der gesetzlichen Voraussetzungen insbesondere
+              das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der
+              Verarbeitung, Datenübertragbarkeit und Widerspruch. Zudem kannst
+              du eine erteilte Einwilligung mit Wirkung für die Zukunft
+              widerrufen.
+            </p>
+            <p>
+              Du hast außerdem das Recht, dich bei einer zuständigen
+              Datenschutzaufsichtsbehörde zu beschweren.
+            </p>
+          </section>
+          <section class="card reveal">
+            <h2><span class="number">8</span>Sicherheit</h2>
+            <p>
+              Velocost setzt technische und organisatorische Maßnahmen ein, um
+              personenbezogene Daten vor unbefugtem Zugriff, Verlust und
+              missbräuchlicher Verwendung zu schützen. Dazu können
+              verschlüsselte Verbindungen, Zugriffsbeschränkungen, private
+              Dateibereiche und zeitlich begrenzte Dateizugriffe gehören.
+            </p>
+            <p>
+              Kein digitales System bietet einen absoluten Schutz. Verwende
+              daher ein sicheres Gerät und schütze den Zugang zu deinem
+              Benutzerkonto.
+            </p>
+          </section>
+          <section class="card reveal" id="kontakt">
+            <h2><span class="number">9</span>Kontakt und Änderungen</h2>
+            <p>
+              Bei Fragen zu dieser Datenschutzerklärung oder zur Verarbeitung
+              deiner Daten kannst du dich an die verantwortliche Stelle wenden.
+            </p>
+            <div class="contact-box">
+              <span>Datenschutzanfragen</span
+              ><a href="mailto:velocost.info@gmail.com"
+                >velocost.info@gmail.com</a
+              >
+            </div>
+            <p>
+              Diese Datenschutzerklärung kann angepasst werden, wenn sich
+              Funktionen, Rechtsgrundlagen oder eingesetzte Dienste ändern. Es
+              gilt die jeweils veröffentlichte Fassung.
+            </p>
+            <p><strong>Stand: Juli 2026</strong></p>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="container footer">
+        <span>© 2026 Velocost</span>
+        <nav>
+          <a href="./">Startseite</a><a href="./support.html">Support</a
+          ><a href="mailto:velocost.info@gmail.com">Kontakt</a>
+        </nav>
+      </div>
+    </footer>
+    <script>
+      const o = new IntersectionObserver(
+        (e) =>
+          e.forEach((x) => {
+            if (x.isIntersecting) {
+              x.target.classList.add("is-visible");
+              o.unobserve(x.target);
+            }
+          }),
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".reveal").forEach((x) => o.observe(x));
+    </script>
   </body>
 </html>

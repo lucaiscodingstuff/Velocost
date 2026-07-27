@@ -1,1000 +1,1366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050b14">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Velocost zeigt dir die tatsächlichen Kosten deines Fahrzeugs – übersichtlich, nachvollziehbar und an einem Ort.">
-  <meta property="og:title" content="Velocost – Alle Fahrzeugkosten im Blick">
-  <meta property="og:description" content="Behalte Vollkosten, Fixkosten, Wertverlust, Termine und Prognosen übersichtlich im Blick.">
-  <meta property="og:type" content="website">
-  <title>Velocost – Alle Fahrzeugkosten im Blick</title>
-
-  <style>
-    :root {
-      --bg: #040911;
-      --bg-soft: #081321;
-      --surface: rgba(13, 25, 42, 0.82);
-      --surface-strong: rgba(16, 31, 51, 0.96);
-      --surface-light: rgba(255,255,255,.045);
-      --border: rgba(84, 151, 255, .19);
-      --border-soft: rgba(255,255,255,.08);
-      --text: #f6f8fc;
-      --muted: #a8b4c6;
-      --muted-2: #7e8ca2;
-      --blue: #4797ff;
-      --blue-strong: #1478ff;
-      --green: #4bd39d;
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-md: 17px;
-      --shadow: 0 28px 90px rgba(0,0,0,.42);
-      --max: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      background: var(--bg);
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      line-height: 1.55;
-      background:
-        radial-gradient(circle at 13% 7%, rgba(20,120,255,.22), transparent 28%),
-        radial-gradient(circle at 88% 25%, rgba(18,102,224,.14), transparent 30%),
-        radial-gradient(circle at 45% 93%, rgba(20,120,255,.13), transparent 32%),
-        linear-gradient(145deg, #03070d 0%, #07111f 50%, #040810 100%);
-    }
-
-    a { color: inherit; }
-    img { display: block; max-width: 100%; }
-
-    .container {
-      width: min(calc(100% - 40px), var(--max));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      border-bottom: 1px solid rgba(255,255,255,.055);
-      background: rgba(4, 9, 17, .76);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      font-weight: 780;
-      font-size: 1.22rem;
-      letter-spacing: -.025em;
-    }
-
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border: 2px solid var(--blue);
-      border-radius: 12px;
-      background: rgba(63,146,255,.08);
-      box-shadow: 0 0 25px rgba(63,146,255,.16);
-    }
-
-    .brand-icon svg {
-      width: 25px;
-      height: 25px;
-      fill: none;
-      stroke: var(--blue);
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: .95rem;
-      font-weight: 650;
-      transition: color .18s ease;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
-    .nav-cta {
-      padding: 10px 16px;
-      border: 1px solid rgba(71,151,255,.38);
-      border-radius: 12px;
-      background: rgba(71,151,255,.10);
-      color: var(--text) !important;
-    }
-
-    .hero {
-      position: relative;
-      padding: 88px 0 68px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.02fr .98fr;
-      align-items: center;
-      gap: 64px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      margin: 0 0 18px;
-      color: var(--blue);
-      font-size: .82rem;
-      font-weight: 820;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 30px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--blue);
-      box-shadow: 0 0 16px var(--blue);
-    }
-
-    h1 {
-      margin: 0;
-      max-width: 760px;
-      font-size: clamp(3.15rem, 6.5vw, 6.2rem);
-      line-height: .96;
-      letter-spacing: -.065em;
-    }
-
-    .accent {
-      color: var(--blue);
-      text-shadow: 0 0 32px rgba(71,151,255,.18);
-    }
-
-    .hero-copy {
-      max-width: 650px;
-      margin: 26px 0 0;
-      color: var(--muted);
-      font-size: clamp(1.05rem, 1.8vw, 1.26rem);
-    }
-
-    .store-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 32px;
-    }
-
-    .store-button {
-      min-width: 205px;
-      min-height: 58px;
-      display: inline-flex;
-      align-items: center;
-      gap: 13px;
-      padding: 0 18px;
-      border: 1px solid var(--border-soft);
-      border-radius: 16px;
-      background: rgba(255,255,255,.055);
-      color: var(--text);
-      text-decoration: none;
-      box-shadow: 0 14px 38px rgba(0,0,0,.20);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-
-    .store-button:hover {
-      transform: translateY(-3px);
-      border-color: rgba(71,151,255,.42);
-      background: rgba(71,151,255,.08);
-    }
-
-    .store-button svg { width: 28px; height: 28px; }
-    .store-button small { display: block; color: var(--muted); font-size: .69rem; line-height: 1.1; }
-    .store-button strong { display: block; margin-top: 2px; font-size: 1rem; }
-    .store-button.is-placeholder { cursor: default; opacity: .8; }
-
-    .hero-note {
-      margin-top: 18px;
-      color: var(--muted-2);
-      font-size: .89rem;
-    }
-
-    .hero-visual {
-      position: relative;
-      min-height: 660px;
-      display: grid;
-      place-items: center;
-    }
-
-    .glow {
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background: rgba(26,124,255,.24);
-      filter: blur(80px);
-      opacity: .78;
-      pointer-events: none;
-    }
-
-    .hero-device {
-      position: relative;
-      z-index: 2;
-      width: min(100%, 475px);
-      border-radius: 28px;
-      box-shadow: 0 45px 110px rgba(0,0,0,.55);
-      transform: rotate(1.3deg);
-    }
-
-    .floating-card {
-      position: absolute;
-      z-index: 3;
-      left: -18px;
-      bottom: 80px;
-      width: 235px;
-      padding: 17px;
-      border: 1px solid rgba(97,158,255,.24);
-      border-radius: 19px;
-      background: rgba(8,18,32,.88);
-      box-shadow: 0 24px 65px rgba(0,0,0,.42);
-      backdrop-filter: blur(16px);
-    }
-
-    .floating-card strong { display: block; font-size: 1.06rem; }
-    .floating-card span { color: var(--muted); font-size: .88rem; }
-    .mini-line {
-      height: 56px;
-      margin-top: 12px;
-      border-radius: 12px;
-      background:
-        linear-gradient(170deg, transparent 0 28%, rgba(71,151,255,.15) 29% 100%),
-        linear-gradient(160deg, transparent 0 42%, var(--blue) 43% 46%, transparent 47% 100%);
-      border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .trust-strip {
-      padding: 14px 0 56px;
-    }
-
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .trust-item {
-      padding: 20px;
-      border: 1px solid var(--border-soft);
-      border-radius: 17px;
-      background: rgba(255,255,255,.03);
-    }
-
-    .trust-item strong {
-      display: block;
-      font-size: 1.06rem;
-      letter-spacing: -.02em;
-    }
-
-    .trust-item span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: .89rem;
-    }
-
-    section.block {
-      padding: 88px 0;
-    }
-
-    .section-heading {
-      max-width: 760px;
-      margin-bottom: 42px;
-    }
-
-    .section-heading.center {
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
-      line-height: 1.03;
-      letter-spacing: -.05em;
-    }
-
-    .section-heading p {
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .showcase-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 610px;
-      padding: 26px 26px 0;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background:
-        radial-gradient(circle at 50% 100%, rgba(32,130,255,.18), transparent 42%),
-        linear-gradient(160deg, rgba(12,27,47,.96), rgba(5,12,22,.96));
-      box-shadow: 0 20px 65px rgba(0,0,0,.28);
-    }
-
-    .showcase-card h3 {
-      margin: 0;
-      font-size: 1.55rem;
-      letter-spacing: -.035em;
-    }
-
-    .showcase-card p {
-      margin: 8px 0 18px;
-      min-height: 52px;
-      color: var(--muted);
-    }
-
-    .showcase-card img {
-      width: 100%;
-      border-radius: 18px 18px 0 0;
-      box-shadow: 0 24px 60px rgba(0,0,0,.42);
-    }
-
-    .feature-section {
-      position: relative;
-    }
-
-    .feature-list {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 62px;
-      align-items: center;
-    }
-
-    .features {
-      display: grid;
-      gap: 14px;
-    }
-
-    .feature {
-      display: grid;
-      grid-template-columns: 52px 1fr;
-      gap: 17px;
-      padding: 20px;
-      border: 1px solid var(--border-soft);
-      border-radius: 18px;
-      background: rgba(255,255,255,.032);
-    }
-
-    .feature-icon {
-      width: 52px;
-      height: 52px;
-      display: grid;
-      place-items: center;
-      border-radius: 15px;
-      background: rgba(71,151,255,.10);
-      color: var(--blue);
-      border: 1px solid rgba(71,151,255,.22);
-    }
-
-    .feature-icon svg {
-      width: 26px;
-      height: 26px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .feature h3 { margin: 0; font-size: 1.07rem; }
-    .feature p { margin: 5px 0 0; color: var(--muted); font-size: .92rem; }
-
-    .ipad-wrap {
-      position: relative;
-      min-height: 520px;
-      display: grid;
-      place-items: center;
-    }
-
-    .ipad-wrap::before {
-      content: "";
-      position: absolute;
-      width: 70%;
-      height: 70%;
-      border-radius: 50%;
-      background: rgba(34,132,255,.20);
-      filter: blur(70px);
-    }
-
-    .ipad-wrap img {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      transform: perspective(1200px) rotateY(-7deg) rotateX(2deg);
-    }
-
-    .scanner {
-      padding: 42px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 42px;
-      align-items: center;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      background:
-        radial-gradient(circle at 85% 45%, rgba(36,135,255,.20), transparent 35%),
-        linear-gradient(145deg, rgba(16,31,51,.96), rgba(7,15,27,.96));
-      box-shadow: var(--shadow);
-    }
-
-    .scanner h2 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.7rem);
-      line-height: 1.04;
-      letter-spacing: -.05em;
-    }
-
-    .scanner p {
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .scanner-steps {
-      display: grid;
-      gap: 12px;
-      margin-top: 26px;
-    }
-
-    .scanner-step {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      color: #dce6f5;
-    }
-
-    .step-number {
-      flex: 0 0 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--blue);
-      font-weight: 800;
-    }
-
-    .document-card {
-      position: relative;
-      min-height: 390px;
-      padding: 30px;
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 26px;
-      background: rgba(3,9,17,.66);
-      overflow: hidden;
-    }
-
-    .scan-frame {
-      position: absolute;
-      inset: 54px 56px;
-      border: 2px solid rgba(71,151,255,.86);
-      border-radius: 20px;
-      box-shadow: 0 0 38px rgba(71,151,255,.22);
-    }
-
-    .scan-frame::before,
-    .scan-frame::after {
-      content: "";
-      position: absolute;
-      left: 12%;
-      right: 12%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--blue), transparent);
-      box-shadow: 0 0 16px var(--blue);
-    }
-
-    .scan-frame::before { top: 34%; }
-    .scan-frame::after { top: 64%; }
-
-    .receipt {
-      width: 70%;
-      height: 290px;
-      margin: 20px auto;
-      padding: 28px 24px;
-      border-radius: 10px;
-      color: #1a2230;
-      background: #f5f7fa;
-      transform: rotate(-3deg);
-      box-shadow: 0 24px 55px rgba(0,0,0,.46);
-    }
-
-    .receipt-line {
-      height: 8px;
-      margin: 11px 0;
-      border-radius: 999px;
-      background: #d3d8df;
-    }
-
-    .receipt-line.short { width: 52%; }
-    .receipt-line.medium { width: 72%; }
-    .receipt-total {
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 2px dashed #c7ced8;
-      font-weight: 800;
-      font-size: 1.2rem;
-    }
-
-    .privacy-card {
-      display: grid;
-      grid-template-columns: .8fr 1.2fr;
-      gap: 46px;
-      align-items: center;
-      padding: 42px;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-xl);
-      background: rgba(255,255,255,.03);
-    }
-
-    .shield {
-      width: 220px;
-      height: 220px;
-      display: grid;
-      place-items: center;
-      margin: auto;
-      border-radius: 50%;
-      color: var(--blue);
-      background:
-        radial-gradient(circle, rgba(71,151,255,.18), rgba(71,151,255,.04) 58%, transparent 60%);
-    }
-
-    .shield svg {
-      width: 115px;
-      height: 115px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.35;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 18px rgba(71,151,255,.30));
-    }
-
-    .privacy-card h2 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.4rem);
-      letter-spacing: -.045em;
-      line-height: 1.05;
-    }
-
-    .privacy-card p { color: var(--muted); }
-
-    .privacy-points {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .privacy-point {
-      padding: 14px 15px;
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      background: rgba(255,255,255,.025);
-      color: #dce5f2;
-      font-size: .93rem;
-    }
-
-    .cta {
-      margin: 28px 0 80px;
-      padding: 60px 38px;
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      background:
-        radial-gradient(circle at 50% 105%, rgba(39,138,255,.28), transparent 45%),
-        linear-gradient(145deg, rgba(16,31,51,.96), rgba(6,14,25,.98));
-      box-shadow: var(--shadow);
-    }
-
-    .cta h2 {
-      margin: 0;
-      font-size: clamp(2.35rem, 5vw, 4.6rem);
-      letter-spacing: -.055em;
-      line-height: 1;
-    }
-
-    .cta p {
-      max-width: 660px;
-      margin: 20px auto 0;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .cta .store-actions { justify-content: center; }
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,.07);
-      padding: 34px 0 44px;
-      color: var(--muted-2);
-      font-size: .91rem;
-    }
-
-    .footer-grid {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    .footer-links a:hover { color: var(--blue); }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .feature-list,
-      .scanner,
-      .privacy-card {
-        grid-template-columns: 1fr;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050b14" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Velocost zeigt dir die tatsächlichen Kosten deines Fahrzeugs – übersichtlich, nachvollziehbar und an einem Ort."
+    />
+    <meta
+      property="og:title"
+      content="Velocost – Alle Fahrzeugkosten im Blick"
+    />
+    <meta
+      property="og:description"
+      content="Behalte Vollkosten, Fixkosten, Wertverlust, Termine und Prognosen übersichtlich im Blick."
+    />
+    <meta property="og:type" content="website" />
+    <title>Velocost – Alle Fahrzeugkosten im Blick</title>
+
+    <style>
+      :root {
+        --bg: #040911;
+        --bg-soft: #081321;
+        --surface: rgba(13, 25, 42, 0.82);
+        --surface-strong: rgba(16, 31, 51, 0.96);
+        --surface-light: rgba(255, 255, 255, 0.045);
+        --border: rgba(84, 151, 255, 0.19);
+        --border-soft: rgba(255, 255, 255, 0.08);
+        --text: #f6f8fc;
+        --muted: #a8b4c6;
+        --muted-2: #7e8ca2;
+        --blue: #4797ff;
+        --blue-strong: #1478ff;
+        --green: #4bd39d;
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 17px;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+        --max: 1180px;
       }
 
-      .hero { padding-top: 62px; }
-      .hero-visual { min-height: 570px; }
-      .hero-device { width: min(88%, 470px); }
-      .floating-card { left: 0; }
-      .trust-grid { grid-template-columns: repeat(2,1fr); }
-      .showcase-grid { grid-template-columns: 1fr; }
-      .showcase-card {
-        min-height: auto;
-        display: grid;
-        grid-template-columns: .7fr 1.3fr;
-        gap: 24px;
-        align-items: end;
-        padding-bottom: 0;
+      * {
+        box-sizing: border-box;
       }
-      .showcase-card p { min-height: auto; }
-      .showcase-card img { max-height: 620px; object-fit: contain; object-position: bottom; }
-      .ipad-wrap img { transform: none; }
-      .privacy-card { text-align: center; }
-    }
 
-    @media (max-width: 700px) {
-      .container { width: min(calc(100% - 24px), var(--max)); }
-      .nav { min-height: 66px; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      .nav-cta { padding: 9px 12px; font-size: .86rem !important; }
-      .hero { padding: 52px 0 38px; }
-      .hero-grid { gap: 34px; }
-      .hero-visual { min-height: 470px; }
-      .floating-card { width: 190px; bottom: 28px; }
-      .store-button { width: 100%; }
-      .trust-grid { grid-template-columns: 1fr; }
-      section.block { padding: 62px 0; }
-      .showcase-card {
+      html {
+        scroll-behavior: smooth;
+        background: var(--bg);
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: var(--text);
+        line-height: 1.55;
+        background:
+          radial-gradient(
+            circle at 13% 7%,
+            rgba(20, 120, 255, 0.22),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 88% 25%,
+            rgba(18, 102, 224, 0.14),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 45% 93%,
+            rgba(20, 120, 255, 0.13),
+            transparent 32%
+          ),
+          linear-gradient(145deg, #03070d 0%, #07111f 50%, #040810 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+      img {
         display: block;
-        min-height: 0;
+        max-width: 100%;
       }
-      .showcase-card img { margin-top: 18px; }
-      .scanner, .privacy-card { padding: 28px 22px; }
-      .document-card { min-height: 330px; padding: 18px; }
-      .scan-frame { inset: 42px 28px; }
-      .receipt { width: 76%; height: 250px; }
-      .privacy-points { grid-template-columns: 1fr; }
-      .cta { padding: 44px 22px; }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        transition-duration: .01ms !important;
-        animation-duration: .01ms !important;
+      .container {
+        width: min(calc(100% - 40px), var(--max));
+        margin: 0 auto;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="./" aria-label="Velocost Startseite">
-        <span class="brand-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M5 16.5h14"/>
-            <path d="M6.4 16.5 5.2 12a2 2 0 0 1 1.9-2.5h9.8a2 2 0 0 1 1.9 2.5l-1.2 4.5"/>
-            <path d="M8 9.5 9.3 7.8h5.4L16 9.5"/>
-            <circle cx="8" cy="16.5" r="1.7"/>
-            <circle cx="16" cy="16.5" r="1.7"/>
-          </svg>
-        </span>
-        <span>Velocost</span>
-      </a>
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+        background: rgba(4, 9, 17, 0.76);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+      }
 
-      <nav class="nav-links" aria-label="Hauptnavigation">
-        <a href="#funktionen">Funktionen</a>
-        <a href="#scanner">Dokumentenscanner</a>
-        <a href="#datenschutz">Datenschutz</a>
-        <a class="nav-cta" href="#download">App laden</a>
-      </nav>
-    </div>
-  </header>
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">Fahrzeugkosten neu gedacht</p>
-          <h1>Alle <span class="accent">Fahrzeugkosten</span> im Blick.</h1>
-          <p class="hero-copy">
-            Velocost bündelt Fixkosten, laufende Ausgaben, Finanzierung,
-            Wertverlust, Termine und Prognosen in einer klaren Übersicht.
-            So erkennst du, was dein Fahrzeug dich wirklich kostet.
-          </p>
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-weight: 780;
+        font-size: 1.22rem;
+        letter-spacing: -0.025em;
+      }
 
-          <div class="store-actions" id="download">
-            <a class="store-button is-placeholder" href="#" aria-label="App Store Link später ergänzen" onclick="return false;">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z"/>
-              </svg>
-              <span><small>Bald verfügbar im</small><strong>App Store</strong></span>
-            </a>
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--blue);
+        border-radius: 12px;
+        background: rgba(63, 146, 255, 0.08);
+        box-shadow: 0 0 25px rgba(63, 146, 255, 0.16);
+      }
 
-            <a class="store-button is-placeholder" href="#" aria-label="Google Play Link später ergänzen" onclick="return false;">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M3.6 2.7a2 2 0 0 0-.48 1.35v15.9c0 .5.18.96.48 1.32l9.06-9.29L3.6 2.7Zm10.1 10.35-2.35 2.41 5.72 3.3c.8.46 1.78.17 2.24-.64.2-.35.26-.72.19-1.07l-5.8-4Zm0-2.1 5.8-4c.07-.35.01-.72-.19-1.07a1.63 1.63 0 0 0-2.24-.64l-5.72 3.3 2.35 2.41ZM4.73 2.05l7.73 7.93-2.63 2.7-5.1-5.24V2.05Z"/>
-              </svg>
-              <span><small>Später erhältlich bei</small><strong>Google Play</strong></span>
-            </a>
-          </div>
+      .brand-icon svg {
+        width: 25px;
+        height: 25px;
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
 
-          <p class="hero-note">Die Store-Links sind vorbereitet und können später direkt ersetzt werden.</p>
-        </div>
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
 
-        <div class="hero-visual" aria-label="Velocost App-Vorschau">
-          <div class="glow"></div>
-          <img class="hero-device" src="assets/mockup-overview.jpeg" alt="Velocost Übersicht auf einem iPhone">
-          <div class="floating-card">
-            <strong>Klare Kostenentwicklung</strong>
-            <span>Trends und Veränderungen sofort erkennen.</span>
-            <div class="mini-line" aria-hidden="true"></div>
-          </div>
-        </div>
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 650;
+        transition: color 0.18s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .nav-cta {
+        padding: 10px 16px;
+        border: 1px solid rgba(71, 151, 255, 0.38);
+        border-radius: 12px;
+        background: rgba(71, 151, 255, 0.1);
+        color: var(--text) !important;
+      }
+
+      .hero {
+        position: relative;
+        padding: 88px 0 68px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.02fr 0.98fr;
+        align-items: center;
+        gap: 64px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 18px;
+        color: var(--blue);
+        font-size: 0.82rem;
+        font-weight: 820;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 30px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--blue);
+        box-shadow: 0 0 16px var(--blue);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 760px;
+        font-size: clamp(3.15rem, 6.5vw, 6.2rem);
+        line-height: 0.96;
+        letter-spacing: -0.065em;
+      }
+
+      .accent {
+        color: var(--blue);
+        text-shadow: 0 0 32px rgba(71, 151, 255, 0.18);
+      }
+
+      .hero-copy {
+        max-width: 650px;
+        margin: 26px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.8vw, 1.26rem);
+      }
+
+      .store-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 32px;
+      }
+
+      .store-button {
+        min-width: 205px;
+        min-height: 58px;
+        display: inline-flex;
+        align-items: center;
+        gap: 13px;
+        padding: 0 18px;
+        border: 1px solid var(--border-soft);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--text);
+        text-decoration: none;
+        box-shadow: 0 14px 38px rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.18s ease,
+          border-color 0.18s ease,
+          background 0.18s ease;
+      }
+
+      .store-button:hover {
+        transform: translateY(-3px);
+        border-color: rgba(71, 151, 255, 0.42);
+        background: rgba(71, 151, 255, 0.08);
+      }
+
+      .store-button svg {
+        width: 28px;
+        height: 28px;
+      }
+      .store-button small {
+        display: block;
+        color: var(--muted);
+        font-size: 0.69rem;
+        line-height: 1.1;
+      }
+      .store-button strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 1rem;
+      }
+      .store-button.is-placeholder {
+        cursor: default;
+        opacity: 0.8;
+      }
+
+      .hero-note {
+        margin-top: 18px;
+        color: var(--muted-2);
+        font-size: 0.89rem;
+      }
+
+      .hero-visual {
+        position: relative;
+        min-height: 660px;
+        display: grid;
+        place-items: center;
+      }
+
+      .glow {
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        border-radius: 50%;
+        background: rgba(26, 124, 255, 0.24);
+        filter: blur(80px);
+        opacity: 0.78;
+        pointer-events: none;
+      }
+
+      .hero-device {
+        position: relative;
+        z-index: 2;
+        width: min(100%, 475px);
+        border-radius: 28px;
+        box-shadow: 0 45px 110px rgba(0, 0, 0, 0.55);
+        transform: rotate(1.3deg);
+      }
+
+      .floating-card {
+        position: absolute;
+        z-index: 3;
+        left: -18px;
+        bottom: 80px;
+        width: 235px;
+        padding: 17px;
+        border: 1px solid rgba(97, 158, 255, 0.24);
+        border-radius: 19px;
+        background: rgba(8, 18, 32, 0.88);
+        box-shadow: 0 24px 65px rgba(0, 0, 0, 0.42);
+        backdrop-filter: blur(16px);
+      }
+
+      .floating-card strong {
+        display: block;
+        font-size: 1.06rem;
+      }
+      .floating-card span {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .mini-line {
+        height: 56px;
+        margin-top: 12px;
+        border-radius: 12px;
+        background:
+          linear-gradient(
+            170deg,
+            transparent 0 28%,
+            rgba(71, 151, 255, 0.15) 29% 100%
+          ),
+          linear-gradient(
+            160deg,
+            transparent 0 42%,
+            var(--blue) 43% 46%,
+            transparent 47% 100%
+          );
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .trust-strip {
+        padding: 14px 0 56px;
+      }
+
+      .trust-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+
+      .trust-item {
+        padding: 20px;
+        border: 1px solid var(--border-soft);
+        border-radius: 17px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .trust-item strong {
+        display: block;
+        font-size: 1.06rem;
+        letter-spacing: -0.02em;
+      }
+
+      .trust-item span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 0.89rem;
+      }
+
+      section.block {
+        padding: 88px 0;
+      }
+
+      .section-heading {
+        max-width: 760px;
+        margin-bottom: 42px;
+      }
+
+      .section-heading.center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(2.2rem, 4.5vw, 4rem);
+        line-height: 1.03;
+        letter-spacing: -0.05em;
+      }
+
+      .section-heading p {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .showcase-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 610px;
+        padding: 26px 26px 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(
+            circle at 50% 100%,
+            rgba(32, 130, 255, 0.18),
+            transparent 42%
+          ),
+          linear-gradient(160deg, rgba(12, 27, 47, 0.96), rgba(5, 12, 22, 0.96));
+        box-shadow: 0 20px 65px rgba(0, 0, 0, 0.28);
+      }
+
+      .showcase-card h3 {
+        margin: 0;
+        font-size: 1.55rem;
+        letter-spacing: -0.035em;
+      }
+
+      .showcase-card p {
+        margin: 8px 0 18px;
+        min-height: 52px;
+        color: var(--muted);
+      }
+
+      .showcase-card img {
+        width: 100%;
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+      }
+
+      .feature-section {
+        position: relative;
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 62px;
+        align-items: center;
+      }
+
+      .features {
+        display: grid;
+        gap: 14px;
+      }
+
+      .feature {
+        display: grid;
+        grid-template-columns: 52px 1fr;
+        gap: 17px;
+        padding: 20px;
+        border: 1px solid var(--border-soft);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.032);
+      }
+
+      .feature-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border-radius: 15px;
+        background: rgba(71, 151, 255, 0.1);
+        color: var(--blue);
+        border: 1px solid rgba(71, 151, 255, 0.22);
+      }
+
+      .feature-icon svg {
+        width: 26px;
+        height: 26px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .feature h3 {
+        margin: 0;
+        font-size: 1.07rem;
+      }
+      .feature p {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .ipad-wrap {
+        position: relative;
+        min-height: 520px;
+        display: grid;
+        place-items: center;
+      }
+
+      .ipad-wrap::before {
+        content: "";
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        background: rgba(34, 132, 255, 0.2);
+        filter: blur(70px);
+      }
+
+      .ipad-wrap img {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        transform: perspective(1200px) rotateY(-7deg) rotateX(2deg);
+      }
+
+      .scanner {
+        padding: 42px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 42px;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        background:
+          radial-gradient(
+            circle at 85% 45%,
+            rgba(36, 135, 255, 0.2),
+            transparent 35%
+          ),
+          linear-gradient(145deg, rgba(16, 31, 51, 0.96), rgba(7, 15, 27, 0.96));
+        box-shadow: var(--shadow);
+      }
+
+      .scanner h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.7rem);
+        line-height: 1.04;
+        letter-spacing: -0.05em;
+      }
+
+      .scanner p {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .scanner-steps {
+        display: grid;
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .scanner-step {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: #dce6f5;
+      }
+
+      .step-number {
+        flex: 0 0 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 10px;
+        background: var(--blue);
+        font-weight: 800;
+      }
+
+      .document-card {
+        position: relative;
+        min-height: 390px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 26px;
+        background: rgba(3, 9, 17, 0.66);
+        overflow: hidden;
+      }
+
+      .scan-frame {
+        position: absolute;
+        inset: 54px 56px;
+        border: 2px solid rgba(71, 151, 255, 0.86);
+        border-radius: 20px;
+        box-shadow: 0 0 38px rgba(71, 151, 255, 0.22);
+      }
+
+      .scan-frame::before,
+      .scan-frame::after {
+        content: "";
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--blue),
+          transparent
+        );
+        box-shadow: 0 0 16px var(--blue);
+      }
+
+      .scan-frame::before {
+        top: 34%;
+      }
+      .scan-frame::after {
+        top: 64%;
+      }
+
+      .receipt {
+        width: 70%;
+        height: 290px;
+        margin: 20px auto;
+        padding: 28px 24px;
+        border-radius: 10px;
+        color: #1a2230;
+        background: #f5f7fa;
+        transform: rotate(-3deg);
+        box-shadow: 0 24px 55px rgba(0, 0, 0, 0.46);
+      }
+
+      .receipt-line {
+        height: 8px;
+        margin: 11px 0;
+        border-radius: 999px;
+        background: #d3d8df;
+      }
+
+      .receipt-line.short {
+        width: 52%;
+      }
+      .receipt-line.medium {
+        width: 72%;
+      }
+      .receipt-total {
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 2px dashed #c7ced8;
+        font-weight: 800;
+        font-size: 1.2rem;
+      }
+
+      .privacy-card {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 46px;
+        align-items: center;
+        padding: 42px;
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius-xl);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .shield {
+        width: 220px;
+        height: 220px;
+        display: grid;
+        place-items: center;
+        margin: auto;
+        border-radius: 50%;
+        color: var(--blue);
+        background: radial-gradient(
+          circle,
+          rgba(71, 151, 255, 0.18),
+          rgba(71, 151, 255, 0.04) 58%,
+          transparent 60%
+        );
+      }
+
+      .shield svg {
+        width: 115px;
+        height: 115px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.35;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 18px rgba(71, 151, 255, 0.3));
+      }
+
+      .privacy-card h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        letter-spacing: -0.045em;
+        line-height: 1.05;
+      }
+
+      .privacy-card p {
+        color: var(--muted);
+      }
+
+      .privacy-points {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .privacy-point {
+        padding: 14px 15px;
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+        color: #dce5f2;
+        font-size: 0.93rem;
+      }
+
+      .cta {
+        width: min(calc(100% - 40px), 980px);
+        margin: 28px auto 96px;
+        padding: 68px 46px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        background:
+          radial-gradient(
+            circle at 50% 105%,
+            rgba(39, 138, 255, 0.28),
+            transparent 45%
+          ),
+          linear-gradient(145deg, rgba(16, 31, 51, 0.96), rgba(6, 14, 25, 0.98));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .cta::before {
+        content: "";
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        bottom: -120px;
+        height: 240px;
+        border-radius: 50%;
+        background: rgba(39, 138, 255, 0.3);
+        filter: blur(70px);
+        pointer-events: none;
+      }
+
+      .cta > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .cta h2 {
+        margin: 0;
+        font-size: clamp(2.35rem, 5vw, 4.6rem);
+        letter-spacing: -0.055em;
+        line-height: 1;
+      }
+
+      .cta p {
+        max-width: 660px;
+        margin: 20px auto 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .cta .store-actions {
+        justify-content: center;
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 34px 0 44px;
+        color: var(--muted-2);
+        font-size: 0.91rem;
+      }
+
+      .footer-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--blue);
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .feature-list,
+        .scanner,
+        .privacy-card {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 62px;
+        }
+        .hero-visual {
+          min-height: 570px;
+        }
+        .hero-device {
+          width: min(88%, 470px);
+        }
+        .floating-card {
+          left: 0;
+        }
+        .trust-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .showcase-grid {
+          grid-template-columns: 1fr;
+        }
+        .showcase-card {
+          min-height: auto;
+          display: grid;
+          grid-template-columns: 0.7fr 1.3fr;
+          gap: 24px;
+          align-items: end;
+          padding-bottom: 0;
+        }
+        .showcase-card p {
+          min-height: auto;
+        }
+        .showcase-card img {
+          max-height: 620px;
+          object-fit: contain;
+          object-position: bottom;
+        }
+        .ipad-wrap img {
+          transform: none;
+        }
+        .privacy-card {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .container {
+          width: min(calc(100% - 24px), var(--max));
+        }
+        .nav {
+          min-height: 66px;
+        }
+        .nav-links a:not(.nav-cta) {
+          display: none;
+        }
+        .nav-cta {
+          padding: 9px 12px;
+          font-size: 0.86rem !important;
+        }
+        .hero {
+          padding: 52px 0 38px;
+        }
+        .hero-grid {
+          gap: 34px;
+        }
+        .hero-visual {
+          min-height: 470px;
+        }
+        .floating-card {
+          width: 190px;
+          bottom: 28px;
+        }
+        .store-button {
+          width: 100%;
+        }
+        .trust-grid {
+          grid-template-columns: 1fr;
+        }
+        section.block {
+          padding: 62px 0;
+        }
+        .showcase-card {
+          display: block;
+          min-height: 0;
+        }
+        .showcase-card img {
+          margin-top: 18px;
+        }
+        .scanner,
+        .privacy-card {
+          padding: 28px 22px;
+        }
+        .document-card {
+          min-height: 330px;
+          padding: 18px;
+        }
+        .scan-frame {
+          inset: 42px 28px;
+        }
+        .receipt {
+          width: 76%;
+          height: 250px;
+        }
+        .privacy-points {
+          grid-template-columns: 1fr;
+        }
+        .cta {
+          width: min(calc(100% - 24px), 980px);
+          padding: 48px 22px;
+          margin-bottom: 68px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="./" aria-label="Velocost Startseite">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 16.5h14" />
+              <path
+                d="M6.4 16.5 5.2 12a2 2 0 0 1 1.9-2.5h9.8a2 2 0 0 1 1.9 2.5l-1.2 4.5"
+              />
+              <path d="M8 9.5 9.3 7.8h5.4L16 9.5" />
+              <circle cx="8" cy="16.5" r="1.7" />
+              <circle cx="16" cy="16.5" r="1.7" />
+            </svg>
+          </span>
+          <span>Velocost</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Hauptnavigation">
+          <a href="#funktionen">Funktionen</a>
+          <a href="#scanner">Dokumentenscanner</a>
+          <a href="#datenschutz">Datenschutz</a>
+          <a class="nav-cta" href="#download">App laden</a>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section class="trust-strip">
-      <div class="container trust-grid">
-        <div class="trust-item"><strong>Vollkosten</strong><span>Mehr als nur Tanken und Versicherung.</span></div>
-        <div class="trust-item"><strong>Wertverlust</strong><span>Den größten Kostenfaktor sichtbar machen.</span></div>
-        <div class="trust-item"><strong>Prognosen</strong><span>Kosten und Fahrzeugwert vorausplanen.</span></div>
-        <div class="trust-item"><strong>Mehrere Fahrzeuge</strong><span>Alle Fahrzeuge an einem Ort verwalten.</span></div>
-      </div>
-    </section>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <p class="eyebrow">Fahrzeugkosten neu gedacht</p>
+            <h1>Alle <span class="accent">Fahrzeugkosten</span> im Blick.</h1>
+            <p class="hero-copy">
+              Velocost bündelt Fixkosten, laufende Ausgaben, Finanzierung,
+              Wertverlust, Termine und Prognosen in einer klaren Übersicht. So
+              erkennst du, was dein Fahrzeug dich wirklich kostet.
+            </p>
 
-    <section class="block" id="funktionen">
-      <div class="container">
-        <div class="section-heading center">
-          <p class="eyebrow">Deine Kosten. Deine Daten.</p>
-          <h2>Verstehe dein Fahrzeug bis ins Detail.</h2>
-          <p>
-            Velocost macht komplexe Fahrzeugkosten verständlich und zeigt dir
-            Kennzahlen, Trends und Entwicklungen in einer ruhigen, übersichtlichen Oberfläche.
-          </p>
-        </div>
+            <div class="store-actions" id="download">
+              <a
+                class="store-button is-placeholder"
+                href="#"
+                aria-label="App Store Link später ergänzen"
+                onclick="return false;"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z"
+                  />
+                </svg>
+                <span
+                  ><small>Bald verfügbar im</small
+                  ><strong>App Store</strong></span
+                >
+              </a>
 
-        <div class="showcase-grid">
-          <article class="showcase-card">
-            <div>
-              <h3>Alles auf einen Blick</h3>
-              <p>Vollkosten, Fixkosten, Wertverlust und Kosten pro Kilometer zentral zusammengefasst.</p>
+              <a
+                class="store-button is-placeholder"
+                href="#"
+                aria-label="Google Play Link später ergänzen"
+                onclick="return false;"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M3.6 2.7a2 2 0 0 0-.48 1.35v15.9c0 .5.18.96.48 1.32l9.06-9.29L3.6 2.7Zm10.1 10.35-2.35 2.41 5.72 3.3c.8.46 1.78.17 2.24-.64.2-.35.26-.72.19-1.07l-5.8-4Zm0-2.1 5.8-4c.07-.35.01-.72-.19-1.07a1.63 1.63 0 0 0-2.24-.64l-5.72 3.3 2.35 2.41ZM4.73 2.05l7.73 7.93-2.63 2.7-5.1-5.24V2.05Z"
+                  />
+                </svg>
+                <span
+                  ><small>Später erhältlich bei</small
+                  ><strong>Google Play</strong></span
+                >
+              </a>
             </div>
-            <img src="assets/mockup-overview.jpeg" alt="Velocost Dashboard mit Fahrzeugkosten">
-          </article>
 
-          <article class="showcase-card">
-            <div>
-              <h3>Klare Analysen</h3>
-              <p>Erkenne Kostenverteilung, Trends, Prognosen und Einsparpotenziale.</p>
-            </div>
-            <img src="assets/mockup-analytics.jpeg" alt="Velocost Analysen und Prognosen">
-          </article>
-
-          <article class="showcase-card">
-            <div>
-              <h3>Persönliche Statistiken</h3>
-              <p>Gesamtkosten, Kilometer, Einträge, Fahrzeuge und Datenqualität im Überblick.</p>
-            </div>
-            <img src="assets/mockup-profile.jpeg" alt="Velocost Profil mit persönlichen Statistiken">
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="block feature-section">
-      <div class="container feature-list">
-        <div>
-          <div class="section-heading">
-            <p class="eyebrow">Für iPhone und iPad</p>
-            <h2>Dein Fahrzeugmanagement auf jedem Bildschirm.</h2>
-            <p>
-              Ob unterwegs auf dem iPhone oder ausführlich auf dem iPad:
-              Deine Fahrzeugdaten, Kosten und Prognosen bleiben übersichtlich verfügbar.
+            <p class="hero-note">
+              Die Store-Links sind vorbereitet und können später direkt ersetzt
+              werden.
             </p>
           </div>
 
-          <div class="features">
-            <div class="feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M4 19V8l8-4 8 4v11"/><path d="M7 19v-5h10v5"/><path d="M9 10h6"/></svg>
-              </div>
-              <div><h3>Fahrzeuge verwalten</h3><p>Mehrere Fahrzeuge mit Stammdaten, Bildern und Status organisieren.</p></div>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M4 18V9"/><path d="M10 18V5"/><path d="M16 18v-7"/><path d="M22 18V3"/></svg>
-              </div>
-              <div><h3>Prognosen verstehen</h3><p>Fahrzeugwert, Gesamtkosten, Wartung, Kraftstoff und Kilometer vorausplanen.</p></div>
-            </div>
-
-            <div class="feature">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>
-              </div>
-              <div><h3>Berichte exportieren</h3><p>Fahrzeugdaten und Kostenübersichten als strukturierten PDF-Bericht ausgeben.</p></div>
+          <div class="hero-visual" aria-label="Velocost App-Vorschau">
+            <div class="glow"></div>
+            <img
+              class="hero-device"
+              src="assets/mockup-overview.jpeg"
+              alt="Velocost Übersicht auf einem iPhone"
+            />
+            <div class="floating-card">
+              <strong>Klare Kostenentwicklung</strong>
+              <span>Trends und Veränderungen sofort erkennen.</span>
+              <div class="mini-line" aria-hidden="true"></div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="ipad-wrap">
-          <img src="assets/mockup-ipad.jpeg" alt="Velocost App auf einem iPad">
-        </div>
-      </div>
-    </section>
-
-    <section class="block" id="scanner">
-      <div class="container scanner">
-        <div>
-          <p class="eyebrow">Intelligenter Dokumentenscanner</p>
-          <h2>Dokumente erfassen, statt Daten abzutippen.</h2>
-          <p>
-            Fotografiere Belege, Rechnungen oder Vertragsunterlagen. Velocost erkennt
-            relevante Angaben, schlägt die passende Kategorie vor und lässt dich alles
-            vor dem Speichern kontrollieren.
-          </p>
-
-          <div class="scanner-steps">
-            <div class="scanner-step"><span class="step-number">1</span><span>Dokument fotografieren oder auswählen</span></div>
-            <div class="scanner-step"><span class="step-number">2</span><span>Erkannte Angaben prüfen und korrigieren</span></div>
-            <div class="scanner-step"><span class="step-number">3</span><span>Als passenden Kosteneintrag speichern</span></div>
+      <section class="trust-strip reveal">
+        <div class="container trust-grid">
+          <div class="trust-item">
+            <strong>Vollkosten</strong
+            ><span>Mehr als nur Tanken und Versicherung.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Wertverlust</strong
+            ><span>Den größten Kostenfaktor sichtbar machen.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Prognosen</strong
+            ><span>Kosten und Fahrzeugwert vorausplanen.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Mehrere Fahrzeuge</strong
+            ><span>Alle Fahrzeuge an einem Ort verwalten.</span>
           </div>
         </div>
+      </section>
 
-        <div class="document-card" aria-label="Illustration eines Dokumentenscans">
-          <div class="receipt">
-            <div class="receipt-line medium"></div>
-            <div class="receipt-line short"></div>
-            <div class="receipt-line"></div>
-            <div class="receipt-line medium"></div>
-            <div class="receipt-line"></div>
-            <div class="receipt-line short"></div>
-            <div class="receipt-total">Gesamt: 459,32 €</div>
+      <section class="block reveal" id="funktionen">
+        <div class="container">
+          <div class="section-heading center">
+            <p class="eyebrow">Deine Kosten. Deine Daten.</p>
+            <h2>Verstehe dein Fahrzeug bis ins Detail.</h2>
+            <p>
+              Velocost macht komplexe Fahrzeugkosten verständlich und zeigt dir
+              Kennzahlen, Trends und Entwicklungen in einer ruhigen,
+              übersichtlichen Oberfläche.
+            </p>
           </div>
-          <div class="scan-frame"></div>
-        </div>
-      </div>
-    </section>
 
-    <section class="block" id="datenschutz">
-      <div class="container privacy-card">
-        <div class="shield" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 3 20 6v5c0 5.2-3.2 8.7-8 10-4.8-1.3-8-4.8-8-10V6l8-3Z"/>
-            <path d="m8.5 12 2.2 2.2 4.8-5"/>
-          </svg>
-        </div>
+          <div class="showcase-grid">
+            <article class="showcase-card">
+              <div>
+                <h3>Alles auf einen Blick</h3>
+                <p>
+                  Vollkosten, Fixkosten, Wertverlust und Kosten pro Kilometer
+                  zentral zusammengefasst.
+                </p>
+              </div>
+              <img
+                src="assets/mockup-overview.jpeg"
+                alt="Velocost Dashboard mit Fahrzeugkosten"
+              />
+            </article>
 
-        <div>
-          <p class="eyebrow">Datenschutz und Kontrolle</p>
-          <h2>Deine Fahrzeugdaten bleiben deine Daten.</h2>
-          <p>
-            Velocost ist darauf ausgelegt, sensible Fahrzeug- und Kostendaten
-            geschützt zu verarbeiten. Du behältst die Kontrolle über deine Einträge,
-            Dokumente und dein Konto.
-          </p>
+            <article class="showcase-card">
+              <div>
+                <h3>Klare Analysen</h3>
+                <p>
+                  Erkenne Kostenverteilung, Trends, Prognosen und
+                  Einsparpotenziale.
+                </p>
+              </div>
+              <img
+                src="assets/mockup-analytics.jpeg"
+                alt="Velocost Analysen und Prognosen"
+              />
+            </article>
 
-          <div class="privacy-points">
-            <div class="privacy-point">Geschützte Benutzerkonten</div>
-            <div class="privacy-point">Private Dokumentenspeicherung</div>
-            <div class="privacy-point">Datenexport und Kontolöschung</div>
-            <div class="privacy-point">Prüfung vor automatischem Speichern</div>
+            <article class="showcase-card">
+              <div>
+                <h3>Persönliche Statistiken</h3>
+                <p>
+                  Gesamtkosten, Kilometer, Einträge, Fahrzeuge und Datenqualität
+                  im Überblick.
+                </p>
+              </div>
+              <img
+                src="assets/mockup-profile.jpeg"
+                alt="Velocost Profil mit persönlichen Statistiken"
+              />
+            </article>
           </div>
         </div>
+      </section>
+
+      <section class="block feature-section reveal">
+        <div class="container feature-list">
+          <div>
+            <div class="section-heading">
+              <p class="eyebrow">Für iPhone und iPad</p>
+              <h2>Dein Fahrzeugmanagement auf jedem Bildschirm.</h2>
+              <p>
+                Ob unterwegs auf dem iPhone oder ausführlich auf dem iPad: Deine
+                Fahrzeugdaten, Kosten und Prognosen bleiben übersichtlich
+                verfügbar.
+              </p>
+            </div>
+
+            <div class="features">
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 19V8l8-4 8 4v11" />
+                    <path d="M7 19v-5h10v5" />
+                    <path d="M9 10h6" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Fahrzeuge verwalten</h3>
+                  <p>
+                    Mehrere Fahrzeuge mit Stammdaten, Bildern und Status
+                    organisieren.
+                  </p>
+                </div>
+              </div>
+
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 18V9" />
+                    <path d="M10 18V5" />
+                    <path d="M16 18v-7" />
+                    <path d="M22 18V3" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Prognosen verstehen</h3>
+                  <p>
+                    Fahrzeugwert, Gesamtkosten, Wartung, Kraftstoff und
+                    Kilometer vorausplanen.
+                  </p>
+                </div>
+              </div>
+
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 5h16v14H4z" />
+                    <path d="M8 9h8" />
+                    <path d="M8 13h5" />
+                  </svg>
+                </div>
+                <div>
+                  <h3>Berichte exportieren</h3>
+                  <p>
+                    Fahrzeugdaten und Kostenübersichten als strukturierten
+                    PDF-Bericht ausgeben.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ipad-wrap">
+            <img
+              src="assets/mockup-ipad.jpeg"
+              alt="Velocost App auf einem iPad"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="block reveal" id="scanner">
+        <div class="container scanner">
+          <div>
+            <p class="eyebrow">Intelligenter Dokumentenscanner</p>
+            <h2>Dokumente erfassen, statt Daten abzutippen.</h2>
+            <p>
+              Fotografiere Belege, Rechnungen oder Vertragsunterlagen. Velocost
+              erkennt relevante Angaben, schlägt die passende Kategorie vor und
+              lässt dich alles vor dem Speichern kontrollieren.
+            </p>
+
+            <div class="scanner-steps">
+              <div class="scanner-step">
+                <span class="step-number">1</span
+                ><span>Dokument fotografieren oder auswählen</span>
+              </div>
+              <div class="scanner-step">
+                <span class="step-number">2</span
+                ><span>Erkannte Angaben prüfen und korrigieren</span>
+              </div>
+              <div class="scanner-step">
+                <span class="step-number">3</span
+                ><span>Als passenden Kosteneintrag speichern</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="document-card"
+            aria-label="Illustration eines Dokumentenscans"
+          >
+            <div class="receipt">
+              <div class="receipt-line medium"></div>
+              <div class="receipt-line short"></div>
+              <div class="receipt-line"></div>
+              <div class="receipt-line medium"></div>
+              <div class="receipt-line"></div>
+              <div class="receipt-line short"></div>
+              <div class="receipt-total">Gesamt: 459,32 €</div>
+            </div>
+            <div class="scan-frame"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block reveal" id="datenschutz">
+        <div class="container privacy-card">
+          <div class="shield" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 3 20 6v5c0 5.2-3.2 8.7-8 10-4.8-1.3-8-4.8-8-10V6l8-3Z"
+              />
+              <path d="m8.5 12 2.2 2.2 4.8-5" />
+            </svg>
+          </div>
+
+          <div>
+            <p class="eyebrow">Datenschutz und Kontrolle</p>
+            <h2>Deine Fahrzeugdaten bleiben deine Daten.</h2>
+            <p>
+              Velocost ist darauf ausgelegt, sensible Fahrzeug- und Kostendaten
+              geschützt zu verarbeiten. Du behältst die Kontrolle über deine
+              Einträge, Dokumente und dein Konto.
+            </p>
+
+            <div class="privacy-points">
+              <div class="privacy-point">Geschützte Benutzerkonten</div>
+              <div class="privacy-point">Private Dokumentenspeicherung</div>
+              <div class="privacy-point">Datenexport und Kontolöschung</div>
+              <div class="privacy-point">
+                Prüfung vor automatischem Speichern
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container cta reveal">
+        <p class="eyebrow">Bereit für den Überblick?</p>
+        <h2>Finde heraus, was dein Auto wirklich kostet.</h2>
+        <p>
+          Erfasse Ausgaben, behalte Termine im Blick und verstehe die
+          langfristige Entwicklung deiner Fahrzeugkosten mit Velocost.
+        </p>
+
+        <div class="store-actions">
+          <a
+            class="store-button is-placeholder"
+            href="#"
+            onclick="return false;"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z"
+              />
+            </svg>
+            <span
+              ><small>Bald verfügbar im</small><strong>App Store</strong></span
+            >
+          </a>
+
+          <a
+            class="store-button is-placeholder"
+            href="#"
+            onclick="return false;"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M3.6 2.7a2 2 0 0 0-.48 1.35v15.9c0 .5.18.96.48 1.32l9.06-9.29L3.6 2.7Zm10.1 10.35-2.35 2.41 5.72 3.3c.8.46 1.78.17 2.24-.64.2-.35.26-.72.19-1.07l-5.8-4Zm0-2.1 5.8-4c.07-.35.01-.72-.19-1.07a1.63 1.63 0 0 0-2.24-.64l-5.72 3.3 2.35 2.41ZM4.73 2.05l7.73 7.93-2.63 2.7-5.1-5.24V2.05Z"
+              />
+            </svg>
+            <span
+              ><small>Später erhältlich bei</small
+              ><strong>Google Play</strong></span
+            >
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <span>© 2026 Velocost</span>
+        <nav class="footer-links" aria-label="Rechtliche Links">
+          <a href="./support.html">Support</a>
+          <a href="./datenschutz.html">Datenschutzerklärung</a>
+          <a href="mailto:velocost.info@gmail.com">Kontakt</a>
+        </nav>
       </div>
-    </section>
+    </footer>
 
-    <section class="container cta">
-      <p class="eyebrow">Bereit für den Überblick?</p>
-      <h2>Finde heraus, was dein Auto wirklich kostet.</h2>
-      <p>
-        Erfasse Ausgaben, behalte Termine im Blick und verstehe die langfristige
-        Entwicklung deiner Fahrzeugkosten mit Velocost.
-      </p>
+    <script>
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
 
-      <div class="store-actions">
-        <a class="store-button is-placeholder" href="#" onclick="return false;">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z"/>
-          </svg>
-          <span><small>Bald verfügbar im</small><strong>App Store</strong></span>
-        </a>
-
-        <a class="store-button is-placeholder" href="#" onclick="return false;">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M3.6 2.7a2 2 0 0 0-.48 1.35v15.9c0 .5.18.96.48 1.32l9.06-9.29L3.6 2.7Zm10.1 10.35-2.35 2.41 5.72 3.3c.8.46 1.78.17 2.24-.64.2-.35.26-.72.19-1.07l-5.8-4Zm0-2.1 5.8-4c.07-.35.01-.72-.19-1.07a1.63 1.63 0 0 0-2.24-.64l-5.72 3.3 2.35 2.41ZM4.73 2.05l7.73 7.93-2.63 2.7-5.1-5.24V2.05Z"/>
-          </svg>
-          <span><small>Später erhältlich bei</small><strong>Google Play</strong></span>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-grid">
-      <span>© 2026 Velocost</span>
-      <nav class="footer-links" aria-label="Rechtliche Links">
-        <a href="./support.html">Support</a>
-        <a href="./datenschutz.html">Datenschutzerklärung</a>
-        <a href="mailto:DEINE-EMAIL@BEISPIEL.DE">Kontakt</a>
-      </nav>
-    </div>
-  </footer>
-</body>
+      document
+        .querySelectorAll(".reveal")
+        .forEach((element) => revealObserver.observe(element));
+    </script>
+  </body>
 </html>
