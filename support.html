@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#07111f" />
+    <meta
+      name="description"
+      content="Support und Kontakt für die App Velocost."
+    />
+    <title>Velocost Support</title>
+    <style>
+      :root {
+        --bg: #050b14;
+        --card: rgba(17, 29, 47, 0.88);
+        --border: rgba(91, 153, 255, 0.18);
+        --text: #f5f7fb;
+        --muted: #aab5c6;
+        --blue: #3f92ff;
+        --blue2: #1478ff;
+        --radius: 24px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 15% 15%,
+            rgba(20, 120, 255, 0.22),
+            transparent 34%
+          ),
+          radial-gradient(
+            circle at 85% 80%,
+            rgba(40, 116, 255, 0.14),
+            transparent 38%
+          ),
+          linear-gradient(145deg, #040810 0%, #07111f 52%, #050a12 100%);
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+      }
+      .page {
+        width: min(100% - 32px, 980px);
+        margin: 0 auto;
+        padding: 40px 0 64px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 48px;
+        text-decoration: none;
+      }
+      .brand-icon {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border: 2px solid var(--blue);
+        border-radius: 14px;
+        background: rgba(63, 146, 255, 0.08);
+        box-shadow: 0 0 30px rgba(63, 146, 255, 0.18);
+      }
+      .brand-icon svg {
+        width: 27px;
+        height: 27px;
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .brand-name {
+        font-size: 1.35rem;
+        font-weight: 750;
+        letter-spacing: -0.02em;
+      }
+      .hero {
+        padding: 48px;
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        background: linear-gradient(
+          145deg,
+          rgba(20, 35, 57, 0.96),
+          rgba(8, 17, 30, 0.94)
+        );
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero:before {
+        content: "";
+        position: absolute;
+        right: -100px;
+        bottom: -160px;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        background: rgba(30, 126, 255, 0.18);
+        filter: blur(30px);
+      }
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--blue);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 700px;
+        margin: 0;
+        font-size: clamp(2.5rem, 7vw, 4.8rem);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+      .hero p {
+        max-width: 670px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 32px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0 20px;
+        border-radius: 14px;
+        font-weight: 750;
+        text-decoration: none;
+        transition: transform 0.16s ease;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+      }
+      .button-primary {
+        background: linear-gradient(135deg, var(--blue), var(--blue2));
+        box-shadow: 0 12px 28px rgba(20, 120, 255, 0.28);
+      }
+      .button-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.045);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 22px;
+      }
+      .card {
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--card);
+        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18);
+      }
+      .card-wide {
+        grid-column: 1/-1;
+      }
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+        letter-spacing: -0.025em;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .support-email {
+        display: inline-block;
+        margin-top: 16px;
+        color: var(--blue);
+        font-size: 1.05rem;
+        font-weight: 750;
+        overflow-wrap: anywhere;
+      }
+      .notice {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border: 1px solid rgba(255, 107, 107, 0.28);
+        border-radius: 14px;
+        background: rgba(255, 107, 107, 0.08);
+        color: #ffd2d2;
+        font-size: 0.93rem;
+      }
+      .steps {
+        margin: 16px 0 0;
+        padding-left: 1.2rem;
+        color: var(--muted);
+      }
+      .steps li + li {
+        margin-top: 8px;
+      }
+      .faq {
+        margin-top: 18px;
+      }
+      details {
+        border-top: 1px solid rgba(255, 255, 255, 0.085);
+        padding: 18px 0;
+      }
+      details:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 700;
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary:after {
+        content: "+";
+        float: right;
+        color: var(--blue);
+        font-size: 1.25rem;
+      }
+      details[open] summary:after {
+        content: "−";
+      }
+      details p {
+        margin-top: 10px !important;
+      }
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 28px;
+        padding: 22px 4px 0;
+        color: #7f8ca0;
+        font-size: 0.9rem;
+      }
+      footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      footer a {
+        color: #a9b8cc;
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--blue);
+      }
+      @media (max-width: 720px) {
+        .page {
+          width: min(100% - 22px, 980px);
+          padding-top: 24px;
+        }
+        .brand {
+          margin-bottom: 28px;
+        }
+        .hero {
+          padding: 30px 24px;
+          border-radius: 24px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .card-wide {
+          grid-column: auto;
+        }
+        .card {
+          padding: 22px;
+        }
+        .button {
+          width: 100%;
+        }
+        footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <a class="brand" href="./" aria-label="Velocost Startseite">
+        <span class="brand-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24">
+            <path d="M5 16.5h14" />
+            <path
+              d="M6.4 16.5 5.2 12a2 2 0 0 1 1.9-2.5h9.8a2 2 0 0 1 1.9 2.5l-1.2 4.5"
+            />
+            <path d="M8 9.5 9.3 7.8h5.4L16 9.5" />
+            <circle cx="8" cy="16.5" r="1.7" />
+            <circle cx="16" cy="16.5" r="1.7" /></svg
+        ></span>
+        <span class="brand-name">Velocost</span>
+      </a>
+
+      <section class="hero">
+        <p class="eyebrow">Hilfe & Kontakt</p>
+        <h1>Velocost Support</h1>
+        <p>
+          Du hast eine Frage, ein technisches Problem oder möchtest Feedback zu
+          Velocost geben? Hier findest du die wichtigsten Hilfestellungen und
+          Kontaktmöglichkeiten.
+        </p>
+        <div class="actions">
+          <a
+            class="button button-primary"
+            href="mailto:velocost.info@gmail.com?subject=Velocost%20Supportanfrage"
+            >Support kontaktieren</a
+          >
+          <a class="button button-secondary" href="#faq">Häufige Fragen</a>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Supportinformationen">
+        <article class="card">
+          <h2>Direkter Kontakt</h2>
+          <p>
+            Beschreibe dein Anliegen möglichst genau. Hilfreich sind das
+            verwendete Gerät, die iOS-Version und eine kurze Beschreibung der
+            Schritte, die zum Problem geführt haben.
+          </p>
+          <a class="support-email" href="mailto:velocost.info@gmail.com"
+            >velocost.info@gmail.com</a
+          >
+          <div class="notice">
+            Vor der Veröffentlichung bitte die Platzhalter-E-Mail-Adresse an
+            allen Stellen durch deine echte Support-E-Mail-Adresse ersetzen.
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Bei technischen Problemen</h2>
+          <p>Bitte sende nach Möglichkeit folgende Informationen mit:</p>
+          <ol class="steps">
+            <li>iPhone- oder iPad-Modell</li>
+            <li>Installierte iOS- oder iPadOS-Version</li>
+            <li>Velocost-App-Version</li>
+            <li>Kurze Fehlerbeschreibung</li>
+            <li>Optional einen Screenshot ohne sensible Daten</li>
+          </ol>
+        </article>
+
+        <article class="card card-wide" id="faq">
+          <h2>Häufige Fragen</h2>
+          <div class="faq">
+            <details>
+              <summary>
+                Wie kann ich einen fehlerhaften Eintrag korrigieren?
+              </summary>
+              <p>
+                Öffne in Velocost den Bereich „Einträge“, wähle den betreffenden
+                Eintrag aus und nutze die Bearbeitungsfunktion. Prüfe
+                anschließend, ob die Kostenübersicht korrekt aktualisiert wurde.
+              </p>
+            </details>
+            <details>
+              <summary>Wie lösche ich mein Konto und meine Daten?</summary>
+              <p>
+                Die Kontolöschung kannst du direkt innerhalb der App im Profil-
+                oder Einstellungsbereich anstoßen. Dabei werden die mit deinem
+                Konto verbundenen Daten gemäß den Hinweisen in der App gelöscht.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Warum können Prognosen von den tatsächlichen Kosten abweichen?
+              </summary>
+              <p>
+                Prognosen beruhen auf deinen vorhandenen Fahrzeug-, Kosten- und
+                Nutzungsdaten. Zukünftige Reparaturen, Preisänderungen,
+                Fahrleistung und der tatsächliche Fahrzeugwert können davon
+                abweichen.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Kann ich Velocost auf mehreren Geräten verwenden?
+              </summary>
+              <p>
+                Bei Verwendung eines Kontos können unterstützte Daten je nach
+                App-Funktion und Synchronisationsstatus auf weiteren Geräten
+                verfügbar sein. Stelle sicher, dass du überall mit demselben
+                Konto angemeldet bist.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Welche Dokumente sollte ich über den Scanner erfassen?
+              </summary>
+              <p>
+                Du kannst beispielsweise Rechnungen, Tankbelege, Versicherungs-,
+                Steuer-, Finanzierungs- oder Wartungsunterlagen erfassen. Prüfe
+                die erkannten Angaben immer vor dem Speichern.
+              </p>
+            </details>
+          </div>
+        </article>
+
+        <article class="card card-wide">
+          <h2>Datenschutz</h2>
+          <p>
+            Bitte sende über den Support nur Informationen, die zur Bearbeitung
+            deines Anliegens erforderlich sind. Teile keine vollständigen
+            Finanzierungsverträge, Ausweisdokumente, Zugangsdaten oder andere
+            besonders sensible Informationen per E-Mail.
+          </p>
+        </article>
+      </section>
+
+      <footer>
+        <span>© 2026 Velocost</span>
+        <nav aria-label="Rechtliche Links">
+          <a href="./">Startseite</a
+          ><a href="./index.html">Datenschutzerklärung</a
+          ><a href="mailto:velocost.info@gmail.com">Kontakt</a>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>
